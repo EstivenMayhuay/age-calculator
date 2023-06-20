@@ -35,9 +35,12 @@ body {
     width: 100%;
 }
 
-.error {
-    outline: 2px solid var(--light-red) !important;
+.error label, .error input, .error input::placeholder {
     color: var(--light-red) !important;
+}
+
+.error input {
+    outline: 2px solid var(--light-red) !important;
 }
 
 .d-none {
