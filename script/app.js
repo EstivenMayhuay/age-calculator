@@ -1,4 +1,7 @@
 let $form = document.querySelector("#frmAge");
+let $dayObjectiveInp = document.querySelector("#dayObjective")
+let $monthObjectiveInp = document.querySelector("#monthObjective")
+let $yearObjectiveInp = document.querySelector("#yearObjective")
 
 function validateDay (day) {
     if(day.length === 0) return {'status': true, 'msg': 'This field is required'} 
@@ -21,9 +24,18 @@ function validateYear (year) {
     if(Number(year) > curr_year) return {'status': true,'msg': 'Year must be in the past'}
 }
 
+function getDaysInMonth (year, month) {
+    return new Date(year, month, 0).getDate()
+}
+
 function validateDate (day, month, year) {
-    let parseDate = new Date(Date.parse(`${year}-${month}-${day}`));
-    console.log(parseDate);
+    if(Number(day.value) > getDaysInMonth(year.value, month.value)) {
+        return [
+            {'status': true, 'msg': 'Must be a valid date', input: day},
+            {'status': true, 'msg': '', input: month},
+            {'status': true, 'msg': '', input: year}
+        ]
+    }
 }
 
 const getFirstParent = (htmlElement) => htmlElement.parentElement
@@ -48,6 +60,19 @@ const resetError = (arrInputs) => {
     })
 }
 
+const getDifferenceTime = (date = "1970-01-01") => {
+    const YEAR_UNIVERSAL_COMPUTER = 1970;
+    const now = new Date();
+    const birthday = new Date(date);
+    let parseTime = new Date(Math.abs(now - birthday));
+
+    return {
+        'years': parseTime.getUTCFullYear() - YEAR_UNIVERSAL_COMPUTER,
+        'months': parseTime.getUTCMonth(),
+        'days': parseTime.getUTCDay(),
+    }
+}
+
 
 $form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -56,20 +81,26 @@ $form.addEventListener("submit", (e) => {
     let $inpYear = e.target.querySelector("input[name='year']");
     let errors = [];
 
-
     if(validateDay($inpDay.value)) errors.push({...validateDay($inpDay.value), input: $inpDay})
     
     if (validateMonth($inpMonth.value)) errors.push({...validateMonth($inpMonth.value), input: $inpMonth})
 
     if(validateYear($inpYear.value)) errors.push({...validateYear($inpYear.value), input: $inpYear})
-    
+
+    if( validateDay($inpDay.value) == undefined
+        && validateMonth($inpMonth.value) == undefined
+        && validateYear($inpYear.value) == undefined 
+        && validateDate($inpDay, $inpMonth, $inpYear)) errors.push(...validateDate($inpDay, $inpMonth, $inpYear))
+
     if(errors.length > 0){
-        console.log('show error');
         for (const error of errors) {
             showError(error.msg, error.input)
         }
-    } else {
-        console.log('send form');
+    } else { 
+        const {years, months, days} = getDifferenceTime(`${$inpYear.value}-${$inpMonth.value}-${$inpDay.value}`);
         resetError([$inpDay, $inpMonth, $inpYear]);
+        $yearObjectiveInp.textContent = years;
+        $monthObjectiveInp.textContent = months;
+        $dayObjectiveInp.textContent = days;
     }
 });

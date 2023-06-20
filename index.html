@@ -18,13 +18,13 @@
       <form id="frmAge" method="post">
         <div class="group-form">
           <label for="day">DAY</label>
-          <input type="number" id="day" name="day" placeholder="DD">
+          <input type="number" id="day" name="day" min="1" placeholder="DD">
           <span class="feedback d-none"></span>
         </div>
 
         <div class="group-form">
           <label for="month">MONTH</label>
-          <input type="number" id="month" name="month" placeholder="MM">
+          <input type="number" id="month" name="month" min="1"   placeholder="MM">
           <span class="feedback d-none"></span>
         </div>
 
@@ -44,15 +44,15 @@
     <section class="ageCalculator__result">
       <ul role="list" class="list">
         <li role="listitem" class="list__item">
-          <span>- -</span>
+          <span id="yearObjective">- -</span>
           <strong>years</strong>
         </li>
         <li role="listitem" class="list__item">
-          <span>- -</span>
+          <span id="monthObjective">- -</span>
           <strong>months</strong>
         </li>
         <li role="listitem" class="list__item">
-          <span>- -</span>
+          <span id="dayObjective">- -</span>
           <strong>days</strong>
         </li>
       </ul>
