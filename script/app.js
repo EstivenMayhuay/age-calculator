@@ -6,13 +6,13 @@ let $yearObjectiveInp = document.querySelector("#yearObjective")
 function validateDay (day) {
     if(day.length === 0) return {'status': true, 'msg': 'This field is required'} 
     
-    if(Number(day) > 31 || Number(day) < 1) return {'status': true, 'msg': 'Day must be from 1 to 31'}
+    if(Number(day) > 31) return {'status': true, 'msg': 'Day must be from 1 to 31'}
 }
 
 function validateMonth (month ) {
     if(month.length === 0) return {'status': true, 'msg': 'This field is required'}
 
-    if(Number(month) > 12 || Number(month) < 1) return {'status': true, 'msg': 'Month must be from 1 to 12'}
+    if(Number(month) > 12) return {'status': true, 'msg': 'Month must be from 1 to 12'}
 }
 
 function validateYear (year) {
